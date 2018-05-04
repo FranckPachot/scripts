@@ -9,3 +9,4 @@ alter session set "_oracle_script"=true;
 @?/rdbms/admin/spcreate
 alter session set "_oracle_script"=false;
 alter user perfstat connect through sys;
+grant create job to perfstat;
