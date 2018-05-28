@@ -1,5 +1,5 @@
 /*
- To be run on each RAC instance
+ To be run on each RAC instance as PERFSTAT
 */
 DECLARE
     instno NUMBER;
