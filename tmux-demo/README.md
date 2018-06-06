@@ -1,3 +1,5 @@
+# Semi-automatic demos ussing TMUX and VIM
+
 ## Install latest tmux on RedHat:
 
  sudo yum -y install tmux git ncurses-devel
@@ -6,12 +8,14 @@
  cd /tmp/libevent && sh autogen.sh && ./configure CFLAGS=-std=gnu99 && make && sudo make install
  git clone https://github.com/tmux/tmux.git /tmp/tmux
  cd /tmp/tmux && sh autogen.sh && ./configure && make && sudo make install
+ run the 'demo' alias to open tmux session or attach to the existing one
 
-##
+## Run and play
 
-run the following in all windows to set the LD_LIBRARY_PATH and PATH:
- . demoenv.sh
+From the terminal windows where you want to see the output of the demo:
+```
+tmux new-session -A -s demo
+```
+so you can run one on your laptop in small font and one larger on the screen
 
-run the 'demo' alias to open tmux session or attach to the existing one
-
-open your testme.bash with 'vi', read an hit 'Page Down' to see what happens
+From another terminal window, open your script file with 'vi', for example testme.bash, read an hit 'Page Down' to see what happens
