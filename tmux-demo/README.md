@@ -8,7 +8,7 @@ Since then, my scripts have evolved and here are the latest ones that can be pul
 ## Install latest tmux on RedHat (good to have recent version)
 
 ```
- sudo yum -y install tmux git ncurses-devel automake libtool
+ sudo yum -y install tmux git ncurses-devel automake libtool gdb
 
  git clone https://github.com/libevent/libevent.git /tmp/libevent
  cd /tmp/libevent && sh autogen.sh && ./configure CFLAGS=-std=gnu99 && make && sudo make install
