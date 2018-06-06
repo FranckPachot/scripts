@@ -9,20 +9,20 @@ hi comment ctermfg=lightblue
 " Argument is PageDown which means no need to automatically wait on cursor as this is supposed to be controled by a human for each line. 
 " Why PageDown? that's what the remote control sends.
 
-map <PageDown> :.w !~/runFromVim.sh PageDown <CR>j:call system('tmux set-option status-right ' . expand('%:t') . ':' . line('.') . shellescape(' %H:%M') )<CR>z.
+map <PageDown> :.w !sh ~/runFromVim.sh PageDown <CR>j:call system('tmux set-option status-right ' . expand('%:t') . ':' . line('.') . shellescape(' %H:%M') )<CR>z.
 
 " I think I mapped to F11 the same as PageDown but with automatic wait. I don't use it
 
-map      <F11> :.w !~/runFromVim.sh F11      <CR>j:call system('tmux set-option status-right ' . expand('%:t') . ':' . line('.') . shellescape(' %H:%M') )<CR>z.
+map      <F11> :.w !sh ~/runFromVim.sh F11      <CR>j:call system('tmux set-option status-right ' . expand('%:t') . ':' . line('.') . shellescape(' %H:%M') )<CR>z.
 
 " F12 is to run from line 1 to current line. 
 " I use it for the initialization part.
 
-map       <F12> :call system('tmux set-option status-right ' . expand('%:t') . ':' . line('.') . shellescape(' %H:%M') )<CR>z.:1,.w !~/runFromVim.sh F12
+map       <F12> :call system('tmux set-option status-right ' . expand('%:t') . ':' . line('.') . shellescape(' %H:%M') )<CR>z.:1,.w !sh ~/runFromVim.sh F12
 
 " Shift F12 runs the selected lines
 
-map     <S-F12> :w !~/runFromVim.sh S-F12 <CR>`>:call system('tmux set-option status-right ' . expand('%:t') . ':' . line('.') . shellescape(' %H:%M') )<CR><CR>^<CR>
+map     <S-F12> :w !sh ~/runFromVim.sh S-F12 <CR>`>:call system('tmux set-option status-right ' . expand('%:t') . ':' . line('.') . shellescape(' %H:%M') )<CR><CR>^<CR>
 
 
 " I use this to add dashed underlines on SQLcl ansiconsole formatted output
