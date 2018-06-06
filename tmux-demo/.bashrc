@@ -7,4 +7,4 @@ alias demo='LD_LIBRARY_PATH=/usr/local/lib /usr/local/bin/tmux new-session -A -s
 export HOST=localhost
 export DBNAME=$ORACLE_SID
 export DOMAIN=.${ORACLE_HOSTNAME##*-}
-
+export PASSWORD="Ach1z0#d"
