@@ -1,6 +1,11 @@
-# Semi-automatic demos ussing TMUX and VIM
+# Semi-automatic demos using TMUX and VIM
 
-## Install latest tmux on RedHat:
+When I first used this technique I've written the following blog post:
+https://blog.dbi-services.com/using-tmux-for-semi-interactive-demos/
+
+Since then, my scripts have evolved and here are the latest ones that can be pulled out to the demo environment (very usefull if it is an ephemeral cloud service).
+
+## Install latest tmux on RedHat (good to have recent version)
 
  sudo yum -y install tmux git ncurses-devel
 
