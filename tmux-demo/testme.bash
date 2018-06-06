@@ -1,6 +1,7 @@
 ---# lines starting with triple dash are executed as-is by the shell
----# as those ones are comments, there are no visible effects 
----# however those starting with triple dash and double hash are displayed in tmux message bar
+---# As those ones are comments, there are no visible effects 
+---#
+---# however those starting with triple dash and double hash are displayed in tmux message bar:
 --- ## Hello World is displayed in the message bar
 
 ---# a black line is send as 'Enter'. You need a comment (---#) to send nothing

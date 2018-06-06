@@ -1,27 +1,33 @@
 awk '
+
 BEGIN{
 }
+
 # empty line is send as "Enter"
 /^$/{
  print "tmux send-keys C-M"
  next
 }
+
 # lines which starts with "tmux "are executed as-is. For backward compatibility with my old scripts
-# now I start lines with "---" to run any command.
+# now I start lines with "---" to run any command, including tmux ones.
 /^tmux /{
  sub(/^.*@@@/,"")
  print
  next
 }
+
 # lines wich starts with "---" with nothing else is the correct way to send "Enter" without having a new line
 /^---$/{
  print "tmux send-keys C-M"
  next
 }
+
 # lines starting with "--- ##" are comments displayed in the message bar (have only one # if you do not want them displayed)
 /^--- ##* /{
  print "tmux display-message -- " q $0 q
 }
+
 # lines wich starts with "---" (except followed by ##) run the remaining as a shell command. Can by anything.
 # note that followed by one # only they are comments as it runs a comment
 /^---/{
@@ -29,6 +35,7 @@ BEGIN{
  print
  next
 }
+
 # lines not starting with "tmux" or with "---" will be send with send-keys 
 !/^---/{
  # the line will be send in quotes, so we have to replace quotes with: end quote, add double-quote within quote, start quote again

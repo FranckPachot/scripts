@@ -1,3 +1,6 @@
+###
+### this is an example. You can adapt. The idea was to generate an HTML file from the demo script. With some comment types dedicated to H1, B,... tags
+###
 cat > /media/sf_share/DEMO/Multitenant/MT-Workshop.sql.html <<'EOF'
 <h1>Oracle 12<i>c</i>R2 Multitenant Workshop</h1>
 <p><i>
