@@ -7,13 +7,15 @@ Since then, my scripts have evolved and here are the latest ones that can be pul
 
 ## Install latest tmux on RedHat (good to have recent version)
 
+```
  sudo yum -y install tmux git ncurses-devel
 
  git clone https://github.com/libevent/libevent.git /tmp/libevent
  cd /tmp/libevent && sh autogen.sh && ./configure CFLAGS=-std=gnu99 && make && sudo make install
  git clone https://github.com/tmux/tmux.git /tmp/tmux
  cd /tmp/tmux && sh autogen.sh && ./configure && make && sudo make install
- run the 'demo' alias to open tmux session or attach to the existing one
+```
+run the 'demo' alias to open tmux session or attach to the existing one
 
 ## Run and play
 
