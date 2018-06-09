@@ -4,13 +4,13 @@ DROP TABLE IF EXISTS CITIES;
 DROP TABLE IF EXISTS COUNTRIES;
 
 CREATE TABLE CITIES (
-  COUNTRY_CODE varchar(2) NOT NULL DEFAULT '',
-  CITY_NAME varchar(8) NOT NULL DEFAULT '',
-  CANTON varchar(2) DEFAULT NULL
+  `Country_Code` varchar(2) NOT NULL DEFAULT '',
+  `City_Name` varchar(8) NOT NULL DEFAULT '',
+  `Canton` varchar(2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO CITIES
-    (COUNTRY_CODE, CITY_NAME, CANTON)
+    (`Country_Code`, `City_Name`, `Canton`)
 VALUES
     ('CH', 'Lausanne', 'VD'),
     ('CH', 'Zurich', 'VD'),
@@ -21,10 +21,10 @@ VALUES
 ;
 
 alter table CITIES add
-constraint CITIES_PK
+constraint Cities_PK
  primary key(
- COUNTRY_CODE,
- CITY_NAME
+ Country_Code,
+ City_Name
  );
 
 -- insert into CITIES values  ('CH', 'Lausanne', 'VD');
@@ -32,14 +32,14 @@ constraint CITIES_PK
 insert into CITIES values  ('CH', 'Vevey', 'VD');
 
   
-CREATE TABLE COUNTRIES (
-  COUNTRY_CODE varchar(2) NOT NULL DEFAULT '',
-  COUNTRY_NAME varchar(11) DEFAULT NULL,
-  POPULATION int(11) DEFAULT NULL
+CREATE TABLE `countries` (
+  `Country_Code` varchar(2) NOT NULL DEFAULT '',
+  `Country_Name` varchar(11) DEFAULT NULL,
+  `Population` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO COUNTRIES
-    (COUNTRY_CODE, COUNTRY_NAME, POPULATION)
+INSERT INTO `countries`
+    (`Country_Code`, `Country_Name`, `Population`)
 VALUES
     ('CH', 'Switzerland', 8.372),
     ('FR', 'France', 66.9),
@@ -47,9 +47,9 @@ VALUES
     ('EG', 'Egypt', 95.69)
 ;
 
-ALTER TABLE COUNTRIES add constraint COUNTRIES_PK  PRIMARY KEY (COUNTRY_CODE);
+ALTER TABLE `countries` add constraint Countries_PK  PRIMARY KEY (`Country_Code`);
 
-ALTER TABLE COUNTRIES add constraint COUNTRIES_UK  UNIQUE (COUNTRY_NAME);
+ALTER TABLE `countries` add constraint Countries_UK  UNIQUE (`Country_Name`);
 
 select * from COUNTRIES;
 select * from CITIES;
