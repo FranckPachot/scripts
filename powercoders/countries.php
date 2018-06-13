@@ -27,8 +27,10 @@
 		$result = $conn->query($sql);
 	?>
 
+
+
 	<p>
-	Here are the countries:
+	xHere are the countries:
 	<table border=1>
 	<tr><th>Country code</th><th>Country name</th></tr>
 

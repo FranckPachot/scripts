@@ -1,0 +1,5 @@
+# PageDown runs last command in gdb
+$if Gdb
+"\e[6~": "\n"
+$endif
+
