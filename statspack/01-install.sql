@@ -14,3 +14,5 @@ alter session set "_oracle_script"=true;
 alter session set "_oracle_script"=false;
 alter user perfstat connect through sys;
 grant create job to perfstat;
+connect perfstat/&perfstat_password
+whenever sqlerror continue
