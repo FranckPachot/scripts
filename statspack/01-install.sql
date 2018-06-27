@@ -1,5 +1,7 @@
 set echo on
 whenever sqlerror exit failure
+-- show the paths where we have datafiles
+select distinct regexp_replace(file_name,'[/][^/\\]*$') from dba_data_files order by 1
 -- Enter the the ASM diskgroup (+DATA) or the datafile for STATSPACK datafile
 create tablespace STATSPACK datafile '&statspack_datafile.' size 100M autoextend on maxsize 2G;
 define default_tablespace='STATSPACK'
