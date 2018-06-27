@@ -3,7 +3,7 @@ whenever sqlerror exit failure
 -- show the paths where we have datafiles
 select distinct regexp_replace(file_name,'[/][^/\\]*$') from dba_data_files order by 1
 -- Enter the the ASM diskgroup (+DATA) or the datafile for STATSPACK datafile
-create tablespace STATSPACK datafile '&statspack_datafile.' size 100M autoextend on maxsize 2G;
+create tablespace STATSPACK datafile '&statspack_datafile./statspack.dbf' size 100M autoextend on maxsize 2G;
 define default_tablespace='STATSPACK'
 define temporary_tablespace='TEMP'
 -- we set a random password. No need to know it as we will connect through sys
