@@ -1,7 +1,7 @@
 set echo on
 whenever sqlerror exit failure
--- replace +DATA by the ASM diskgroup ot the datafile for STATSPACK datafile
-create tablespace STATSPACK datafile '+DATA' size 100M autoextend on maxsize 2G;
+-- Enter the the ASM diskgroup (+DATA) or the datafile for STATSPACK datafile
+create tablespace STATSPACK datafile '&statspack_datafile.' size 100M autoextend on maxsize 2G;
 define default_tablespace='STATSPACK'
 define temporary_tablespace='TEMP'
 -- we set a random password. No need to know it as we will connect through sys
