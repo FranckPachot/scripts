@@ -43,3 +43,4 @@ BEGIN
     DBMS_SCHEDULER.SET_ATTRIBUTE( name => purgejob, attribute => 'INSTANCE_STICKINESS', value=>TRUE);
 END;
 /
+select job_name, state, enabled, next_run_date, instance_stickiness, instance_id from dba_scheduler_jobs where owner='PERFSTAT';
