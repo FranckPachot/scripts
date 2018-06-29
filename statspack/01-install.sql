@@ -1,5 +1,4 @@
 set echo on
-whenever sqlerror exit failure
 -- show the paths where we have datafiles
 select distinct regexp_replace(file_name,'[/][^/\\]*$') from dba_data_files order by 1
 -- Enter the the ASM diskgroup (+DATA) or the datafile for STATSPACK datafile
