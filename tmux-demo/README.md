@@ -28,14 +28,22 @@ cp -irp ~tmux-demo/* tmux-demo/.* ~ ; . .bashrc
 ```
 
 
-run the 'demo' alias to open tmux session or attach to the existing one
-
 ## Run and play
 
-From the terminal windows where you want to see the output of the demo:
-```
-tmux new-session -A -s demo
-```
-so you can run one on your laptop in small font and one larger on the screen
+From the terminal windows where you want to see the output of the demo, run `demo` which is is an alias for `LD_LIBRARY_PATH=/usr/local/lib /usr/local/bin/tmux new-session -A -s demo`
+You can run it from multiple terminals, for example one with larger fonts to display on the beamer and one with small fonts on your laptop. What you type or see in one is identical on the other, thanks to tmux attached sessions.
 
-From another terminal window, open your script file with 'vi', for example testme.bash, read an hit 'Page Down' to see what happens
+From another terminal window, on your laptop screen only, open your script file with 'vi', and hit 'Page Down' to see what happens.
+Example:
+```
+vi testme.bash
+```
+The following macros are defined in vi (see .vimrc):
+ - PageDown runs the current line
+ - F12 runs all from start to current line
+Here 'run' roughly means:
+ - run the commands for lines starting with `---`
+ - send lines not starting with `---` 
+(It is a bit more complex than that, see runFromVim.sh) 
+  
+ - Shift-F2 runs all selected lines
