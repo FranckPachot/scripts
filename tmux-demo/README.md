@@ -18,6 +18,16 @@ Since then, my scripts have evolved and here are the latest ones that can be dow
  cd /tmp/tmux && sh autogen.sh && ./configure && make && sudo make install  && cd -
  }
 ```
+
+## Download this folder and install the files
+
+```
+cd && rm -rf tmux-demo
+svn export https://github.com/FranckPachot/scripts/trunk/tmux-demo
+for 
+```
+
+
 run the 'demo' alias to open tmux session or attach to the existing one
 
 ## Run and play
