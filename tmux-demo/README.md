@@ -10,7 +10,7 @@ Since then, my scripts have evolved and here are the latest ones that can be dow
 ```
 [ $(whoami) == "root" ] && {
  sudo yum -y update
- sudo yum -y install tmux git ncurses-devel automake libtool gdb
+ sudo yum -y install tmux git svn ncurses-devel automake libtool gdb
  rm -rf /tmp/libevent /tmp/tmux
  git clone https://github.com/libevent/libevent.git /tmp/libevent
  cd /tmp/libevent && sh autogen.sh && ./configure CFLAGS=-std=gnu99 && make && sudo make install && cd -
