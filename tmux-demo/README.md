@@ -41,6 +41,7 @@ vi testme.bash
 The following macros are defined in vi (see .vimrc):
  - PageDown runs the current line
  - F12 runs all from start to current line
+ 
 Here 'run' roughly means:
  - run the commands for lines starting with `---`
  - send lines not starting with `---` 
