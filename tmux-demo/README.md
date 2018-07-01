@@ -8,13 +8,15 @@ Since then, my scripts have evolved and here are the latest ones that can be dow
 ## Install latest tmux on RedHat (good to have recent version)
 
 ```
+[ $(whoami) == "root" ] && {
  sudo yum -y update
  sudo yum -y install tmux git ncurses-devel automake libtool gdb
-
+ rm -rf /tmp/libevent /tmp/tmux
  git clone https://github.com/libevent/libevent.git /tmp/libevent
- cd /tmp/libevent && sh autogen.sh && ./configure CFLAGS=-std=gnu99 && make && sudo make install
+ cd /tmp/libevent && sh autogen.sh && ./configure CFLAGS=-std=gnu99 && make && sudo make install && cd -
  git clone https://github.com/tmux/tmux.git /tmp/tmux
- cd /tmp/tmux && sh autogen.sh && ./configure && make && sudo make install
+ cd /tmp/tmux && sh autogen.sh && ./configure && make && sudo make install  && cd -
+ }
 ```
 run the 'demo' alias to open tmux session or attach to the existing one
 
