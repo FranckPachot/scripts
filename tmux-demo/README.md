@@ -20,11 +20,11 @@ Since then, my scripts have evolved and here are the latest ones that can be dow
 ```
 
 ## Download this folder and install the files
+** be careful, .bashrc .inputrc .tmux.conf .vimrc will be overwritten - you may customize them **
 
 ```
-cd && rm -rf tmux-demo
-svn export https://github.com/FranckPachot/scripts/trunk/tmux-demo
-for 
+cd && rm -rf tmux-demo && svn export https://github.com/FranckPachot/scripts/trunk/tmux-demo
+cp -irp ~tmux-demo/* tmux-demo/.* ~ ; . .bashrc
 ```
 
 
