@@ -44,7 +44,5 @@ The following macros are defined in vi (see .vimrc):
  
 Here 'run' roughly means:
  - run the commands for lines starting with `---`
- - send lines not starting with `---` 
-(It is a bit more complex than that, see runFromVim.sh) 
-  
+ - send lines not starting with `---` (It is a bit more complex than that, see runFromVim.sh) 
  - Shift-F2 runs all selected lines
