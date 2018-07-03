@@ -25,9 +25,9 @@ odus
 ```
 cd && rm -rf tmux-demo && svn export https://github.com/FranckPachot/scripts/trunk/tmux-demo
 # backup the files that will be overwritten
-[ -f tmux-demo-oldfiles.tar ] || tar -cvf tmux-demo-oldfiles.tar .bashrc .inputrc .tmux.conf .vimrc
+[ -f tmux-demo-oldfiles.tar ] || tar -cvf tmux-demo-oldfiles.tar $(ls .bashrc .inputrc .tmux.conf .vimrc)
 # copy the files (enter y to acknowlege overwriting)
-cp -irp ~tmux-demo/* tmux-demo/.* ~ ; . .bashrc
+cp -irp ~/tmux-demo/* ~/tmux-demo/.* ~ ; . .bashrc
 ```
 
 
