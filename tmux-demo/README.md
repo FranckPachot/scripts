@@ -8,7 +8,7 @@ Since then, my scripts have evolved and here are the latest ones that can be dow
 ## Install latest tmux on RedHat (good to have recent version)
 
 ```
-[ $(whoami) == "root" ] && {
+sudo bash <<odus
  sudo yum -y update
  sudo yum -y install tmux git svn ncurses-devel automake libtool gdb
  rm -rf /tmp/libevent /tmp/tmux
@@ -16,7 +16,7 @@ Since then, my scripts have evolved and here are the latest ones that can be dow
  cd /tmp/libevent && sh autogen.sh && ./configure CFLAGS=-std=gnu99 && make && sudo make install && cd -
  git clone https://github.com/tmux/tmux.git /tmp/tmux
  cd /tmp/tmux && sh autogen.sh && ./configure && make && sudo make install  && cd -
- }
+odus
 ```
 
 ## Download this folder and install the files
@@ -24,6 +24,7 @@ Since then, my scripts have evolved and here are the latest ones that can be dow
 
 ```
 cd && rm -rf tmux-demo && svn export https://github.com/FranckPachot/scripts/trunk/tmux-demo
+[-f tmux-demo-oldfiles.tar ] tar -cvf tmux-demo-oldfiles.tar $(ls ~tmux-demo/*)
 cp -irp ~tmux-demo/* tmux-demo/.* ~ ; . .bashrc
 ```
 
