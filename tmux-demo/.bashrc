@@ -1,10 +1,11 @@
 # I use TITLE to show the end-time of the session in the Presenter window
 TITLE="00:00"
+SESSION="demo"
 # following is needed if tmux installed in /usr/local by compiling the source
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
 export PATH=$PATH:/usr/local/bin
 # -A means attached if the session already exists.
-alias demo='if LD_LIBRARY_PATH=/usr/local/lib /usr/local/bin/tmux list-session ; then echo -en "\033]0;Presenter $TITLE\a"; else echo -en "\033]0;DEMO Screen\a"; fi; LD_LIBRARY_PATH=/usr/local/lib /usr/local/bin/tmux new-session -A -s demo'
+alias demo='if LD_LIBRARY_PATH=/usr/local/lib /usr/local/bin/tmux list-session ; then echo -en "\033]0;Presenter $TITLE\a"; else echo -en "\033]0;DEMO Screen\a"; fi; LD_LIBRARY_PATH=/usr/local/lib /usr/local/bin/tmux new-session -A -s $SESSION'
 # following are some variables I use in my scripts (here set for Oracle DBaaS)
 export HOST=localhost
 export DBNAME=$ORACLE_SID
