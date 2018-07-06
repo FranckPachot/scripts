@@ -27,7 +27,7 @@ cd && rm -rf tmux-demo && svn export https://github.com/FranckPachot/scripts/tru
 # backup the files that will be overwritten
 [ -f tmux-demo-oldfiles.tar ] || tar -cvf tmux-demo-oldfiles.tar $(ls .bashrc .inputrc .tmux.conf .vimrc)
 # copy the files (enter y to acknowlege overwriting)
-cp -irp ~/tmux-demo/* ~/tmux-demo/.* ~ ; . .bashrc
+cp -ip ~/tmux-demo/* ~/tmux-demo/.* ~ ; . .bashrc
 ```
 
 
