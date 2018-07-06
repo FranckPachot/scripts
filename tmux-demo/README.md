@@ -16,6 +16,7 @@ sudo bash <<odus
  cd /tmp/libevent && sh autogen.sh && ./configure CFLAGS=-std=gnu99 && make && sudo make install && cd -
  git clone https://github.com/tmux/tmux.git /tmp/tmux
  cd /tmp/tmux && sh autogen.sh && ./configure && make && sudo make install  && cd -
+ rm -rf /tmp/libevent /tmp/tmux /var/cache/yum
 odus
 ```
 
