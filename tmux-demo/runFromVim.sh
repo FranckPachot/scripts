@@ -1,6 +1,7 @@
 awk '
 
 BEGIN{
+print "tmux set-option status-right $(date +%H:%M)"
 }
 
 # empty line is send as "Enter"
