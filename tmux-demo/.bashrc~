@@ -21,3 +21,4 @@ alias sqlcl='JAVA_HOME=$ORACLE_HOME/jdk SQLPATH=~/sql bash $ORACLE_HOME/sqldevel
 alias connect=sqlcl
 alias sql=sqlcl
 alias quit='echo -e "\n\n\n\n"'
+alias vi=vim
