@@ -15,13 +15,13 @@ sudo bash <<odus
  rm -rf /tmp/libevent /tmp/tmux /tmp/vim
  git clone https://github.com/libevent/libevent.git /tmp/libevent
  cd /tmp/libevent && sh autogen.sh && ./configure CFLAGS=-std=gnu99 && make && sudo make install && cd -
- rm -r /tmp/libevent
+ rm -rf /tmp/libevent
  git clone https://github.com/tmux/tmux.git /tmp/tmux
  cd /tmp/tmux && sh autogen.sh && ./configure && make && sudo make install  && cd -
- rm -r /tmp/tmux
+ rm -rf /tmp/tmux
  git clone https://github.com/vim/vim.git /tmp/vim
  cd /tmp/vim/src && make && sudo make install
- rm -r /tmp/vim
+ rm -rf /tmp/vim
 odus
 ```
 ## Download this folder and install the files
