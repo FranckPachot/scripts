@@ -19,10 +19,13 @@ map      <F11> :.w !sh ~/runFromVim.sh F11      <CR>j:call system('tmux set-opti
 " I use it for the initialization part.
 
 map       <F12> :call system('tmux set-option status-right ' . expand('%:t') . ':' . line('.') . shellescape(' %H:%M') )<CR>z.:1,.w !sh ~/runFromVim.sh F12
+map       <C-S-PageDown> :call system('tmux set-option status-right ' . expand('%:t') . ':' . line('.') . shellescape(' %H:%M') )<CR>z.:1,.w !sh ~/runFromVim.sh F12
+
 
 " Shift F12 runs the selected lines
 
 map     <S-F12> :w !sh ~/runFromVim.sh S-F12 <CR>`>:call system('tmux set-option status-right ' . expand('%:t') . ':' . line('.') . shellescape(' %H:%M') )<CR><CR>^<CR>
+map     <S-PageDown> :w !sh ~/runFromVim.sh S-F12 <CR>`>:call system('tmux set-option status-right ' . expand('%:t') . ':' . line('.') . shellescape(' %H:%M') )<CR><CR>^<CR>
 
 
 " I use this to add dashed underlines on SQLcl ansiconsole formatted output
