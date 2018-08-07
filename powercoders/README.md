@@ -3,4 +3,6 @@
 https://sites.google.com/powercoders.org/resources/curriculum-003-lausanne/week-09/mon-jun-18
 https://sites.google.com/powercoders.org/resources/curriculum-003-lausanne/week-09/tue-jun-19
 https://sites.google.com/powercoders.org/resources/curriculum-003-lausanne/week-09/thu-jun-21
-##
+## more info:
+https://blog.dbi-services.com/introduction-to-database-for-power-coders-with-mysql/
+
