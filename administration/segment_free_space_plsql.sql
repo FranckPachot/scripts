@@ -4,7 +4,7 @@ declare
 begin
  for i in (select * from (select * from dba_segments where segment_subtype='ASSM' and segment_type in (
   'TABLE','TABLE PARTITION','TABLE SUBPARTITION','INDEX','INDEX PARTITION','INDEX SUBPARTITION','CLUSTER','LOB','LOB PARTITION','LOB SUBPARTITION'
- ) order by bytes desc) where 10&gt;=rownum)
+ ) order by bytes desc) where 10>=rownum)
  loop
   begin
    dbms_space.space_usage(i.owner,i.segment_name,i.segment_type,unf,unfb,fs1,fs1b,fs2,fs2b,fs3,fs3b,fs4,fs4b,full,fullb,partition_name=&gt;i.partition_name);
