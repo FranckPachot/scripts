@@ -3,7 +3,7 @@ declare
  unf number; unfb number; fs1 number; fs1b number; fs2 number; fs2b number; fs3 number; fs3b number; fs4 number; fs4b number; full number; fullb number; 
 begin
  for i in (select * from (select * from dba_segments where segment_subtype='ASSM' and segment_type in (
-  'TABLE','TABLE PARTITION','TABLE SUBPARTITION','INDEX','INDEX PARTITION','INDEX SUBPARTITION','CLUSTER','LOB','LOB PARTITION','LOB SUBPARTITION'
+  'TABLE','TABLE PARTITION','TABLE SUBPARTITION','CLUSTER','LOB','LOB PARTITION','LOB SUBPARTITION'
  ) order by bytes desc) where 10>=rownum)
  loop
   begin
