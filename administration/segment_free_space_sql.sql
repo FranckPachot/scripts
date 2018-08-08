@@ -6,6 +6,6 @@ begin
 end;
 select round(freebytes(owner,segment_name,segment_type,partition_name)/1024/1024/1024,3) free_GB,segment_type,owner,segment_name,partition_name
 from dba_segments  where segment_subtype='ASSM' and segment_type in (
-  'TABLE','TABLE PARTITION','TABLE SUBPARTITION','INDEX','INDEX PARTITION','INDEX SUBPARTITION','CLUSTER','LOB','LOB PARTITION','LOB SUBPARTITION'
+  'TABLE','TABLE PARTITION','TABLE SUBPARTITION','CLUSTER','LOB','LOB PARTITION','LOB SUBPARTITION'
 ) order by bytes desc fetch first 10 rows only
 /
