@@ -1,13 +1,17 @@
+--- tmux set -g status-left "17:30-17:15 @FranckPachot ##POUG2018 "
+--- tmux set -g  status-left-length 60
+--- # ssh after tmux commands, service name
 --- tmux display-message "testing ping to server..." 
---- ping -w 5000 -n 1 ${HOST:-192.168.56.188} || exit
+--- ping -w 5000 -c 1 ${HOST:-192.168.56.183} || exit
 --- tmux display-message "server ok."
 --- 
---- tmux kill-window -t "JoinMethods"
+--- #with -k no need to kill before#tmux kill-window -t "JoinMethods"
 --- tmux new-window -k -n "JoinMethods" 
 --- sleep 1
---- tmux send-keys "ssh oracle@${HOST:-192.168.56.188}" C-M
+--- tmux send-keys "ssh oracle@${HOST:-192.168.56.183}" C-M
 --- tmux display-message "wait for tmux window..."
 --- sleep 1
+echo -e '$if Gdb\n"\\e[6~": "\\n"\n$endif' > ~/.inputrc
 --- 
 --- ####################################################################################
 --- ############################## begin sqlcl env #####################################
@@ -29,7 +33,7 @@
 
 
 
-set linesize 120 pagesize 1000
+set linesize 130 pagesize 1000
 set long 1000000 longc 1000 linesize 200
 column xml format a120
 column json format a120
@@ -64,36 +68,79 @@ alter session set "_sql_diag_repo_retain" = true "_sql_diag_repo_origin"=all;
 --
 --
 --
+quit
+--- tmux send-keys -t :.0 "sql scott/tiger@//localhost/PDB1${DOMAIN}" C-M
 --
 --
--- Here is the font I'll use for the demo, so please move in front ;)
+REMARK ... Here is the font I'll use for the demo, so please move in front if you can't read ;)
+
+/*
+
+     ~  ~
+              ( o )o)
+             ( o )o )o)
+           (o( ~~~~~~~~~~~~~~~~o
+           ( )' ~~~~~~~~~~~~~~~'
+           ( )|)               |-.
+             o|  _  _       _  |-. \
+             o| |_|| | | | | _ |  \ \
+              | |  |_| |_| |_| |   | |
+             o|                |  / /
+              |   _  _     _   |." "
+              |   _|| | | |_|  |- '
+              |  |_ |_| | |_|  |   
+              |                |   
+              |                |   
+              |                |   
+              .================.     
+
+          */
+
+/**********************************************************************************
+           **********************************************************************
+
+           Franck Pachot - Join Methods: Nested Loop, Hash, Sort, Merge, Adaptive
+
+           **********************************************************************
+          ***********************************************************************************/
+-- 
+--   Twitter: @FranckPachot     
+--   e-mail: franck.pachot@cern.ch
+--   blog: https://medium.com/@FranckPachot
 --
+--   Oracle Certified Master 12c, Oracle ACE Director, Oak Table member
+--   Previously consultant at dbi-services
+--   Now working in the database group at    ___ ___ _ __ _ __  
+--                                          / __/ _ \ '__| '_ \ 
+--                                         | (_|  __/ |  | | | |
+--                                          \___\___|_|  |_| |_|
+                     
+-- This is the only 'slide'
+-- All is demo (running on the Oracle Cloud :)
 
 
---- #F12 until there
 
-
-
+--- #F12 or Control-Shift-PageDown until there. Win-Shift-Left/Right to move DEMO pane to other monitors
 --- #------------------------------- finally start there
-
 select deptno,dname from dept order by 1; 
 select empno,ename,job,hiredate,deptno from emp order by 1; 
 select * from DEPT join EMP using(deptno)
 /
-
 --- # visualize ( gdb function method )
 --- tmux select-pane -t :.0
 quit
 --- tmux send-keys -t :.0 "sqlplus scott/tiger@//localhost/PDB1${DOMAIN}" C-M
-set linesize 120 pagesize 3 arraysize 1
+--alter session set events 'sql_trace bind=true, wait=true';
+set linesize 130 pagesize 3 arraysize 1
 --- tmux kill-pane -t :.1 
---- tmux split-window -l 30 "ssh oracle@${HOST:-192.168.56.188}"
+--- tmux split-window -l 30 "ssh oracle@${HOST:-192.168.56.183}"
 --- tmux send-keys -t :.1 "sql sys/oracle@//localhost/PDB1${DOMAIN} as sysdba" C-M
 --- tmux select-pane -t :.1
 set long 100000 longc 1000 
 set sqlformat ansiconsole
 select /*+ monitor */ * from dual;
 select regexp_replace(dbms_sqltune.report_sql_monitor(sql_id=>sql_id,report_level=>'all',event_detail=>'NO',type=>'text'),'^(.{120}).*$','\1',1,0,'m') from v$sql_monitor where service_name =sys_context('userenv','service_name') order by last_refresh_time desc fetch first 1 rows only;
+select regexp_replace(dbms_sqltune.report_sql_monitor(sql_id=>sql_id,report_level=>'all',event_detail=>'NO',type=>'text'),'^(.{120}).*$','\1',1,0,'m') , (select in_parse||in_hard_parse||in_sql_execution||in_bind||in_cursor_close from v$active_session_history ash where ash.session_id=sid order by sample_time desc fetch first 1 rows only) from v$sql_monitor where service_name =sys_context('userenv','service_name') order by last_refresh_time desc fetch first 1 rows only;
 format buffer
 
 --- tmux send-keys "repeat 1200 1"
@@ -117,91 +164,61 @@ select /*+ leading(DEPT) USE_MERGE_CARTESIAN(EMP) monitor */ * from DEPT cross j
 select spid from v$process join v$session on v$session.paddr=v$process.addr where sid=sys_context('userenv','sid');
 --- tmux copy-mode ; tmux send-key -X search-backward "SPID" ; tmux send-key -X cursor-down ; tmux send-key -X cursor-down ; tmux send-key -X begin-selection ; tmux send-keys -X end-of-line ; tmux send-keys -X cursor-left ; tmux send-keys -X stop-selection ; sleep 1 ; tmux send-key -X copy-selection-and-cancel
 --- # QER stands for Query Execution Rowsource
---- tmux split-window -t :.1 "ssh oracle@${HOST:-192.168.56.188}"
+--- tmux split-window -t :.1 "ssh oracle@${HOST:-192.168.56.183}"
 --- tmux select-pane -t :.2
 --- tmux send-key "gdb -p " ; tmux paste-buffer 
 --- tmux send-key C-M
---- tmux select-pane -t :.2                             # Query Execution Rowsource
---- tmux send-keys "break opifch2" C-M			# SELECT STATEMENT	fetch call
---- tmux send-keys "break qertbAllocate" C-M		# TABLE ACCESS FULL
---- tmux send-keys "break qertbStart" C-M		# exec
---- tmux send-keys "break qertbFetch" C-M		# fetch
---- tmux send-keys "break qertbFetchByRowID" C-M	# 
---- tmux send-keys "break qertbClose" C-M		# close
---- tmux send-keys "break qerixAllocate" C-M		# INDEX ACCESS
---- tmux send-keys "break qerixStart" C-M		# exec
---- tmux send-keys "break qerixGetKey" C-M
---- tmux send-keys "break qerixtFetch" C-M
---- tmux send-keys "break qerixGetRowid" C-M
---- tmux send-keys "break qerixRelease" C-M
---- tmux send-keys "break qerixClose" C-M
---- tmux send-keys "break qerjoAllocate" C-M		# NESTED LOOP, MERGE JOIN
---- tmux send-keys "break qerjoStart" C-M		# exec
---- tmux send-keys "break qerjotFetch" C-M		# fetch
---- tmux send-keys "break qerjotRelease" C-M		# return
---- tmux send-keys "break qerjotRowProc" C-M		# next outer row
---- tmux send-keys "break qerjoRowProcedure" C-M	# 
---- tmux send-keys "break qerjoClose" C-M		# close
---- tmux send-keys "break qerhjAllocate" C-M		# HASH JOIN
---- tmux send-keys "break qerhnStart" C-M		# exec
---- tmux send-keys "break qerhnFetch" C-M		# fetch
---- tmux send-keys "break qerhn_kxhrPack" C-M		# one per build row
---- tmux send-keys "break qerhnBuildHashTable" C-M	# build hash from build rows
---- tmux send-keys "break qerhnAllocHashTable" C-M	# alloc
---- tmux send-keys "break qerhnProbeChooseRowP" C-M	# starting probe
---- tmux send-keys "break qerhnClose" C-M		# close
---- tmux send-keys "break qersoAllocate" C-M		# BUFFER SORT
---- tmux send-keys "break qersoStart" C-M		# exec
---- tmux send-keys "break qersoFetchSimple" C-M		#
---- tmux send-keys "break qersoFetch" C-M		#
---- tmux send-keys "break qersoSORowP" C-M		# one per row to be sorted
---- tmux send-keys "break qersoFKeyCompare" C-M		# merge on the two buffers
---- tmux send-keys "break qersoClose" C-M		# close
---- tmux send-keys "break qergsAllocate" C-M		#
---- tmux send-keys "break qergsStart" C-M		#
---- tmux send-keys "break qergsRowP" C-M
---- tmux send-keys "break qergsFetch" C-M
---- tmux send-keys "break qergsRelease" C-M
---- tmux send-keys "break qergsClose" C-M
---- tmux send-keys "break qerscAllocate" C-M		# STATISTIC COLLECTOR
---- tmux send-keys "break qerscStart" C-M
---- tmux send-keys "break qerscFetch" C-M
---- tmux send-keys "break qerscDisableGatherStats" C-M
---- tmux send-keys "break qerscAggStatsAndFireActions" C-M
---- tmux send-keys "break qerscDisableGatherStats" C-M
---- tmux send-keys "break qerscFetchBuffer" C-M
---- tmux send-keys "break qerscFireActions" C-M
---- tmux send-keys "break qerscRelease" C-M
---- tmux send-keys "break qerscClose" C-M
---- tmux send-keys "break qerjoDisableNLJCbk" C-M
---- tmux send-keys "break qerhjDisableHJCbk" C-M
---- tmux send-keys "break qerjoDisableNLJRws" C-M
---- #
+--- tmux select-pane -t :.2                             # breakpoints
+--- # Query Execution Rowsource
+--- tmux send-keys "break opifch2" C-M # SELECT STATEMENT fetch call
+--- # TABLE ACCESS FULL breakpoints
+--- tmux send-keys "break qertbAllocate" C-M "break qertbStart" C-M "break qertbFetch" C-M "break qertbFetchByRowID" C-M "break qertbClose" C-M # TABLE ACCESS FULL
+--- # INDEX ACCESS
+--- tmux send-keys "break qerixAllocate" C-M "break qerixStart" C-M "break qerixGetKey" C-M "break qerixtFetch" C-M "break qerixGetRowid" C-M "break qerixRelease" C-M "break qerixClose" C-M # INDEX ACCESS
+--- # NESTED LOOP, MERGE JOIN
+--- tmux send-keys "break qerjoAllocate" C-M "break qerjoStart" C-M "break qerjotFetch" C-M "break qerjotRelease" C-M "break qerjotRowProc" C-M "break qerjoRowProcedure" C-M "break qerjoClose" C-M # NESTED LOOP, MERGE JOIN
+--- # HASH JOIN
+--- tmux send-keys "break qerhjAllocate" C-M "break qerhnStart" C-M "break qerhnFetch" C-M "break qerhn_kxhrPack" C-M "break qerhnBuildHashTable" C-M "break qerhnAllocHashTable" C-M "break qerhnProbeChooseRowP" C-M "break qerhnClose" C-M # HASH JOIN
+--- # BUFFER SORT
+--- tmux send-keys "break qersoAllocate" C-M "break qersoStart" C-M "break qersoFetchSimple" C-M "break qersoFetch" C-M "break qersoSORowP" C-M "break qersoFKeyCompare" C-M "break qersoClose" C-M # BUFFER SORT
+--- # gather statistics
+--- tmux send-keys "break qergsAllocate" C-M "break qergsStart" C-M "break qergsRowP" C-M "break qergsFetch" C-M "break qergsRelease" C-M "break qergsClose" C-M # GATHER STATISTIC?
+--- # STATISTIC COLLECTOR
+--- tmux send-keys "break qerscAllocate" C-M "break qerscStart" C-M "break qerscFetch" C-M "break qerscDisableGatherStats" C-M "break qerscAggStatsAndFireActions" C-M "break qerscDisableGatherStats" C-M "break qerscFetchBuffer" C-M "break qerscFireActions" C-M "break qerscRelease" C-M "break qerscClose" C-M "break qerscBufferRop" C-M "qerscMaxAllocSize" C-M "qerscUpdateStats" C-M # STATISTIC COLLECTOR
+--- # ADAPTIVE JOINS
+--- tmux send-keys "break qerjoDisableNLJCbk" C-M "break qerhjDisableHJCbk" C-M "break qerjoDisableNLJRws" C-M "break qesdpResolve" C-M "break qerjoResolveDynamic" C-M # ADAPTIVE JOIN
+--- # USE_NL
 --- tmux select-pane -t :.0
 select /*+ leading(DEPT) USE_NL(EMP) monitor */ * from DEPT join EMP using(deptno);
 --- tmux select-pane -t :.2
 c
-
+---# cont !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+--- # USE_HASH 
+---# (reads from IM_DOMAIN$ for In-Memory Global Dictionary Join Groups feature)
 --- tmux select-pane -t :.0
 select /*+ leading(DEPT) USE_HASH(EMP) no_swap_join_inputs(EMP) monitor */ * from DEPT join EMP using(deptno);
 --- tmux select-pane -t :.2
 c
-
+---# cont !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+--- # SWAP_JOIN_INPUT
 --- tmux select-pane -t :.0
 select /*+ leading(DEPT) USE_HASH(EMP) swap_join_inputs(EMP) monitor */ * from DEPT join EMP using(deptno);
 --- tmux select-pane -t :.2
 c
-
+---# cont !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+--- # USE_MERGE
 --- tmux select-pane -t :.0
 select /*+ leading(DEPT) USE_MERGE(EMP) FULL(DEPT) monitor */ * from DEPT join EMP using(deptno);
 --- tmux select-pane -t :.2
 c
-
+---# cont !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+--- # USE_MERGE_CARTESIAN
 --- tmux select-pane -t :.0
 select /*+ leading(DEPT) USE_MERGE_CARTESIAN(EMP) monitor */ * from DEPT cross join EMP ;
 --- tmux select-pane -t :.2
 c
-
+--- # cont !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+--- # disable and continue
 disable
 cont
 --- tmux send-key C-C
@@ -213,6 +230,7 @@ select /*+ monitor */ * from DEPT join EMP using(DEPTNO) where to_char(SAL)like'
 c
 
 --- tmux select-pane -t :.2
+--- tmux send-key C-C
 delete
 y
 cont
@@ -220,9 +238,9 @@ cont
 quit
 y
 
-
-
---- #------------------------------- back to the slides
+--- tmux select-pane -t :.2
+exit
+--- #------------------------------- EXIT the 3rd pane
 
 --- # adaptive
 
@@ -234,8 +252,10 @@ explain plan for select /*+ monitor */ * from DEPT join EMP using(DEPTNO) where 
 select * from dbms_xplan.display(format=>'+adaptive');
 --- tmux resize-pane -Z -t :.0
 --- tmux resize-pane -Z -t :.0
-select /*+ monitor */ * from DEPT join EMP using(DEPTNO) where to_char(SAL)like'%0';
-select * from dbms_xplan.display_cursor(format=>'+adaptive allstats last'); 
+select /*+ monitor */ * from DEPT join EMP using(DEPTNO) where to_char(SAL)like'%0'
+/
+select * from dbms_xplan.display_cursor(format=>'+adaptive allstats last')
+/ 
 --- tmux resize-pane -Z -t :.0
 --- tmux resize-pane -Z -t :.0
 
@@ -246,6 +266,8 @@ select tracefile from v$process where addr=(select paddr from v$session where si
 --- tmux send-keys "host > &tracefile." C-M
 exec dbms_sqldiag.dump_trace(p_sql_id=>'bpmj48yjg09k4',p_child_number=>0,p_component=>'Compiler',p_file_id=>'');
 --- tmux send-keys 'host grep -E --color=auto "^(DP.*|AP)" &tracefile.' 
+---#
+
 
 
 --- # join elimination
@@ -254,14 +276,13 @@ exec dbms_sqldiag.dump_trace(p_sql_id=>'bpmj48yjg09k4',p_child_number=>0,p_compo
 set pagesize 1000 linesize 120
 select /*+ monitor */ DEPTNO,ENAME,SAL from DEPT join EMP using(DEPTNO);
 l
-select * from dbms_xplan.display_cursor(format=>'+outline +report')
+select * from dbms_xplan.display_cursor(format=>'+outline +report projection')
 /
 
 --- bypass that
-select sql_id,plan_id,child_number,state,reason,feature,(select description from v$sql_feature where sql_feature = feature) feature
-from v$sql_diag_repository p join v$sql_diag_repository_reason s using (sql_diag_repo_id,sql_id,feature,con_id,hash_value,child_number,address)
-where sql_id='9a0nt1xmg0f3q' order by decode(state,'bypass','disabled','enabled') desc;
-
+---#select sql_id,plan_id,child_number,state,reason,feature,(select description from v$sql_feature where sql_feature = feature) feature
+---#from v$sql_diag_repository p join v$sql_diag_repository_reason s using (sql_diag_repo_id,sql_id,feature,con_id,hash_value,child_number,address)
+---#where sql_id='9a0nt1xmg0f3q' order by decode(state,'bypass','disabled','enabled') desc;
 
 --- tmux resize-pane -Z -t :.0
 --- tmux resize-pane -Z -t :.0
@@ -290,16 +311,19 @@ select /*+ monitor leading(DEPT) use_hash(EMP) */ * from DEPT join EMP using(DEP
 select * from dbms_xplan.display_cursor(format=>'+outline');
 
 
---- #-------------------------- back to slides
---- # SYNTAX                                     
 --- tmux resize-pane -Z -t :.0
-spool qkajoi_froPUjoi1.txt
+---#spool qkajoi_froPUjoi1.txt
+disconnect
 host TWO_TASK=//localhost/PDB1${DOMAIN} sqlplus sys/oracle as sysdba @ ?/rdbms/admin/utlsampl
+connect sys/oracle@//localhost/PDB1 as sysdba
+grant dba to scott;
+connect scott/tiger@//localhost/PDB1
+
+--- # SYNTAX                                     
 
 --- # cartesian join
 select E.job,E.empno,E.ename,E.hiredate,E.deptno,D.deptno,D.dname 
 from DEPT D,EMP E
-.
 /
 select E.job,E.empno,E.ename,E.hiredate,E.deptno,D.deptno,D.dname 
 from DEPT D,EMP E
@@ -322,7 +346,7 @@ natural inner join
  (select deptno,ename,job,empno,hiredate from EMP E )
 /
 
--- # semi and anti joins
+--- # semi and anti joins
 select * from dbms_xplan.display_cursor()
 /
 
@@ -340,7 +364,7 @@ select * from dbms_xplan.display_cursor()
 --- # outer join
 
 select D.dname,deptno,E.job,E.empno,E.ename,E.hiredate
-from DEPT D left join EMP E using(deptno)
+from DEPT D left outer join EMP E using(deptno)
 order by 2,3
 /
 
@@ -350,7 +374,18 @@ from DEPT D left outer join EMP E partition by (e.job) using(deptno)
 order by 2,3
 /
 
+
+
 --- bug???
+alter session set "_qa_lrg_type"=1 
+
+
+
+alter table DEPT modify partition by hash(LOC) partitions 8 online;
+alter table EMP modify DEPTNO not null;
+alter table EMP modify partition by reference(FK_DEPTNO) ;
+alter table EMP modify constraint FK_DEPTNO enable validate;
+alter table EMP modify partition by reference(FK_DEPTNO) ;
 
 rename EMP to EMP2;
 create table EMP as select * from EMP2;
@@ -365,10 +400,7 @@ order by 2,3
 /
 
 
-
-
-
-
+--- end bug
 
 
 
@@ -417,6 +449,9 @@ select * from dbms_xplan.display_cursor(format=>'iostats last')
 
 
 --- ### --- first demo
+quit
+sqlplus scott/tiger@//localhost/PDB1
+set pagesize 1000 long 10000 longc 10000
 
 --- #you know that in relational databases we store business entities in separate tables and we join them at runtime
 
@@ -516,7 +551,7 @@ quit
 --- tmux send-keys -t :.0 "sqlplus scott/tiger@//localhost/PDB1${DOMAIN}" C-M
 set linesize 120 pagesize 3 arraysize 1
 --- tmux kill-pane -t :.1 
---- tmux split-window -l 30 "ssh oracle@${HOST:-192.168.56.188}"
+--- tmux split-window -l 30 "ssh oracle@${HOST:-192.168.56.183}"
 --- tmux send-keys -t :.1 "sql sys/oracle@//localhost/PDB1${DOMAIN} as sysdba" C-M
 
 --- tmux select-pane -t :.0
