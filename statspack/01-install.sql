@@ -1,6 +1,6 @@
 set echo on
 -- show the paths where we have datafiles
-select distinct regexp_replace(file_name,'[/][^/\\]*$') from dba_data_files order by 1
+select distinct regexp_replace(file_name,'[/][^/\\]*$') from dba_data_files order by 1;
 -- Enter the the ASM diskgroup (+DATA) or the datafile for STATSPACK datafile
 create tablespace STATSPACK datafile '&statspack_datafile./statspack.dbf' size 100M autoextend on maxsize 2G;
 define default_tablespace='STATSPACK'
@@ -11,7 +11,7 @@ select '"'||dbms_random.string('a',30)||'"' random from dual;
 alter session set "_oracle_script"=true;
 @?/rdbms/admin/spcreate
 alter session set "_oracle_script"=false;
-alter user perfstat grant connect through sys;
+alter user perfstat grant connect through system;
 grant create job to perfstat;
 connect perfstat/&perfstat_password
 whenever sqlerror continue
