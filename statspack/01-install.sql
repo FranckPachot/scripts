@@ -11,7 +11,7 @@ select '"'||dbms_random.string('a',30)||'"' random from dual;
 alter session set "_oracle_script"=true;
 @?/rdbms/admin/spcreate
 alter session set "_oracle_script"=false;
-alter user perfstat connect through sys;
+alter user perfstat grant connect through sys;
 grant create job to perfstat;
 connect perfstat/&perfstat_password
 whenever sqlerror continue
