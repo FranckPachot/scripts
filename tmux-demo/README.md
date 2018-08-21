@@ -10,8 +10,8 @@ It is good to have recent version. I've used my scripts with VIM 8.0 and TMUX 2.
 
 ```
 sudo bash <<odus
- sudo yum -y update
- sudo yum -y install tmux git svn ncurses-devel automake libtool gdb gcc
+ yum -y update
+ yum -y install tmux git svn ncurses-devel automake libtool gdb gcc
  rm -rf /tmp/libevent /tmp/tmux /tmp/vim
  git clone https://github.com/libevent/libevent.git /tmp/libevent
  cd /tmp/libevent && sh autogen.sh && ./configure CFLAGS=-std=gnu99 && make && sudo make install && cd -
