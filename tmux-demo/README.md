@@ -28,7 +28,7 @@ odus
 ** be careful, .bashrc .inputrc .tmux.conf .vimrc will be overwritten. You may customize them **
 
 ```
-cd && rm -rf tmux-demo && svn export https://github.com/FranckPachot/scripts/trunk/tmux-demo
+cd && rm -rf tmux-demo && LC_ALL=en_US.utf8 svn export https://github.com/FranckPachot/scripts/trunk/tmux-demo
 # backup the files that will be overwritten
 [ -f tmux-demo-oldfiles.tar ] || tar -cvf tmux-demo-oldfiles.tar $(ls .bashrc .inputrc .tmux.conf .vimrc)
 # copy the files (enter y to acknowlege overwriting)
