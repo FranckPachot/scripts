@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<displays>
+<display id="0ac4fe75-0166-1000-8001-c0a83801d760" type="" style="Table" enable="true">
+	<name><![CDATA[SQL Profiles]]></name>
+	<description><![CDATA[Displays the SQL Profiles found by the SQL Tuning Advisor with following detail:
+ - OPT_ESTIMATE hints ordered by SCALE_ROWS order of magnitude
+ - hints to reproduce the same plan]]></description>
+	<tooltip><![CDATA[ SQL Profiles found by the SQL Tuning Advisor, with SCALE_ROWS and HINTS]]></tooltip>
+	<drillclass><![CDATA[]]></drillclass>
+	<CustomValues>
+		<TYPE><![CDATA[horizontal]]></TYPE>
+	</CustomValues>
+	<query>
+		<sql><![CDATA[select owner,task_name,object_id,attr1 sql_id,attr4 sql_text,rec_id,round(to_number(benefit)/100) benefit,advisor_name,created
+from dba_advisor_objects join dba_advisor_recommendations using (owner,task_name,task_id)
+join dba_advisor_tasks using(owner,task_id,task_name)
+where dba_advisor_objects.type='SQL' and dba_advisor_recommendations.type='SQL PROFILE'
+order by created desc,benefit desc]]></sql>
+	</query>
+		<pdf version="VERSION_1_7" compression="CONTENT">
+			<docproperty title="" author="" subject="" keywords="" />
+			<cell toppadding="2" bottompadding="2" leftpadding="2" rightpadding="2" horizontalalign="LEFT" verticalalign="TOP" wrap="true" />
+			<column>
+				<heading font="Times New Roman" size="10" style="NORMAL" color="-16777216" rowshading="-1" labeling="FIRST_PAGE" />
+				<footing font="Times New Roman" size="10" style="NORMAL" color="-16777216" rowshading="-1" labeling="NONE" />
+				<blob blob="NONE" zip="false" />
+			</column>
+			<table font="Times New Roman" size="10" style="NORMAL" color="-16777216" userowshading="false" oddrowshading="-1" evenrowshading="-1" showborders="true" spacingbefore="12" spacingafter="12" horizontalalign="LEFT" />
+			<header enable="false" generatedate="false">
+				<data>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				null																																								</data>
+			</header>
+			<footer enable="false" generatedate="false">
+				<data value="null" />
+			</footer>
+			<pagesetup papersize="LETTER" orientation="1" measurement="in" margintop="1.0" marginbottom="1.0" marginleft="1.0" marginright="1.0" />
+		</pdf>
+	<display id="" type="" style="Table" enable="true">
+		<name><![CDATA[OPT_ESTIMATE]]></name>
+		<description><![CDATA[]]></description>
+		<tooltip><![CDATA[]]></tooltip>
+		<drillclass><![CDATA[]]></drillclass>
+		<CustomValues>
+			<TYPE><![CDATA[horizontal]]></TYPE>
+		</CustomValues>
+		<query>
+			<sql><![CDATA[select hint,round("order of magnitude") "order of magnitude",'SQLDEV:GAUGE:0:5:1:3:'||(5-abs(round("order of magnitude"))) "static statistics accuracy" from (
+select hint,log(10,to_number(regexp_replace(hint,'^.*=([0-9.]+)[^0-9].*$','\1'))) "order of magnitude" from (
+select case when attr5 like 'OPT_ESTIMATE%' then cast(attr5 as varchar2(4000)) when attr1 like 'OPT_ESTIMATE%' then attr1 end hint
+             from dba_advisor_rationale r 
+             where owner=:OWNER and task_name = :TASK_NAME and r.object_id= :OBJECT_ID and rec_id= :REC_ID
+             --and r.message in('This attribute adjusts optimizer estimates.','This attribute causes the optimizer to try an interesting alternative plan for this statement.')
+            )
+) where hint is not null and "order of magnitude" is not null           
+order by abs("order of magnitude") desc,hint]]></sql>
+			<binds>
+				<bind id="OWNER">
+					<prompt><![CDATA[OWNER]]></prompt>
+					<tooltip><![CDATA[OWNER]]></tooltip>
+					<value><![CDATA[NULL_VALUE]]></value>
+					<bracket><![CDATA[null]]></bracket>
+				</bind>
+				<bind id="TASK_NAME">
+					<prompt><![CDATA[TASK_NAME]]></prompt>
+					<tooltip><![CDATA[TASK_NAME]]></tooltip>
+					<value><![CDATA[NULL_VALUE]]></value>
+					<bracket><![CDATA[null]]></bracket>
+				</bind>
+				<bind id="OBJECT_ID">
+					<prompt><![CDATA[OBJECT_ID]]></prompt>
+					<tooltip><![CDATA[OBJECT_ID]]></tooltip>
+					<value><![CDATA[NULL_VALUE]]></value>
+					<bracket><![CDATA[null]]></bracket>
+				</bind>
+				<bind id="REC_ID">
+					<prompt><![CDATA[REC_ID]]></prompt>
+					<tooltip><![CDATA[REC_ID]]></tooltip>
+					<value><![CDATA[NULL_VALUE]]></value>
+					<bracket><![CDATA[null]]></bracket>
+				</bind>
+			</binds>
+		</query>
+			<pdf version="VERSION_1_7" compression="CONTENT">
+				<docproperty title="null" author="null" subject="null" keywords="null" />
+				<cell toppadding="2" bottompadding="2" leftpadding="2" rightpadding="2" horizontalalign="LEFT" verticalalign="TOP" wrap="true" />
+				<column>
+					<heading font="null" size="10" style="NORMAL" color="-16777216" rowshading="-1" labeling="FIRST_PAGE" />
+					<footing font="null" size="10" style="NORMAL" color="-16777216" rowshading="-1" labeling="NONE" />
+					<blob blob="NONE" zip="false" />
+				</column>
+				<table font="null" size="10" style="NORMAL" color="-16777216" userowshading="false" oddrowshading="-1" evenrowshading="-1" showborders="true" spacingbefore="12" spacingafter="12" horizontalalign="LEFT" />
+				<header enable="false" generatedate="false">
+					<data>
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					null																																																		</data>
+				</header>
+				<footer enable="false" generatedate="false">
+					<data value="null" />
+				</footer>
+				<pagesetup papersize="LETTER" orientation="1" measurement="in" margintop="1.0" marginbottom="1.0" marginleft="1.0" marginright="1.0" />
+			</pdf>
+	</display>
+	<display id="" type="" style="Table" enable="true">
+		<name><![CDATA[HINTS]]></name>
+		<description><![CDATA[]]></description>
+		<tooltip><![CDATA[]]></tooltip>
+		<drillclass><![CDATA[]]></drillclass>
+		<CustomValues>
+			<TYPE><![CDATA[horizontal]]></TYPE>
+		</CustomValues>
+		<query>
+			<sql><![CDATA[select (extractvalue(value(d), '/hint')) hint from table(xmlsequence(extract( 
+(
+select outline_data from (
+   select case when other_xml is not null then extract(xmltype(other_xml),'/*/outline_data/hint') end outline_data
+              from dba_advisor_tasks t join dba_sqltune_plans p using (task_id)
+              where t.owner=:OWNER and t.task_name = :TASK_NAME and p.object_id=:OBJECT_ID  and t.advisor_name='SQL Tuning Advisor' --11gonly-- and execution_type='TUNE SQL'
+              and p.attribute='Using SQL profile'
+) where outline_data is not null     
+)
+, '/'))) d]]></sql>
+			<binds>
+				<bind id="OWNER">
+					<prompt><![CDATA[OWNER]]></prompt>
+					<tooltip><![CDATA[OWNER]]></tooltip>
+					<value><![CDATA[NULL_VALUE]]></value>
+					<bracket><![CDATA[null]]></bracket>
+				</bind>
+				<bind id="TASK_NAME">
+					<prompt><![CDATA[TASK_NAME]]></prompt>
+					<tooltip><![CDATA[TASK_NAME]]></tooltip>
+					<value><![CDATA[NULL_VALUE]]></value>
+					<bracket><![CDATA[null]]></bracket>
+				</bind>
+				<bind id="OBJECT_ID">
+					<prompt><![CDATA[OBJECT_ID]]></prompt>
+					<tooltip><![CDATA[OBJECT_ID]]></tooltip>
+					<value><![CDATA[NULL_VALUE]]></value>
+					<bracket><![CDATA[null]]></bracket>
+				</bind>
+			</binds>
+		</query>
+			<pdf version="VERSION_1_7" compression="CONTENT">
+				<docproperty title="null" author="null" subject="null" keywords="null" />
+				<cell toppadding="2" bottompadding="2" leftpadding="2" rightpadding="2" horizontalalign="LEFT" verticalalign="TOP" wrap="true" />
+				<column>
+					<heading font="null" size="10" style="NORMAL" color="-16777216" rowshading="-1" labeling="FIRST_PAGE" />
+					<footing font="null" size="10" style="NORMAL" color="-16777216" rowshading="-1" labeling="NONE" />
+					<blob blob="NONE" zip="false" />
+				</column>
+				<table font="null" size="10" style="NORMAL" color="-16777216" userowshading="false" oddrowshading="-1" evenrowshading="-1" showborders="true" spacingbefore="12" spacingafter="12" horizontalalign="LEFT" />
+				<header enable="false" generatedate="false">
+					<data>
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					null																																																		</data>
+				</header>
+				<footer enable="false" generatedate="false">
+					<data value="null" />
+				</footer>
+				<pagesetup papersize="LETTER" orientation="1" measurement="in" margintop="1.0" marginbottom="1.0" marginleft="1.0" marginright="1.0" />
+			</pdf>
+	</display>
+</display>
+</displays>
