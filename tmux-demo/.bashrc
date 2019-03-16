@@ -22,3 +22,6 @@ alias connect=sqlcl
 alias sql=sqlcl
 alias quit='echo -e "\n\n\n\n"'
 alias vi=vim
+shopt -s histappend
+history -a
+HISTCONTROL=ignoreboth
