@@ -1,4 +1,4 @@
-merge into STATS$SNAPSHOT s
+merge into STATS$SNAPSHOT s -- adds a comment on end snapshot about the load
 using (
 select
  dbid,instance_number,snap_id
