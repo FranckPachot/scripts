@@ -1,3 +1,5 @@
+create or replace procedure snap_comment as
+begin
 merge into STATS$SNAPSHOT s -- adds a comment on end snapshot about the load
 using (
 select
@@ -26,3 +28,6 @@ select
 group by dbid,instance_number,snap_id
 ) l on (s.snap_id=l.snap_id and s.dbid=l.dbid and s.instance_number=l.instance_number)
 when matched then update set s.ucomment=l.ucomment;
+end;
+/
+exec snap_comment;                                                                                     
