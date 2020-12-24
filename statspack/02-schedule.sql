@@ -9,7 +9,7 @@ DECLARE
 BEGIN
     select instance_number into instno from v$instance;
     snapjob  := 'PERFSTAT.STATSPACK_SNAP_' || instno;
-    lightjob  := 'PERFSTAT.STATSPACK_SNAP_LIGHT_' || instno;
+    lightjob  := 'PERFSTAT.STATSPACK_ZERO_' || instno;
     purgejob := 'PERFSTAT.STATSPACK_PURGE_' || instno;
  
     DBMS_SCHEDULER.CREATE_JOB (
