@@ -18,7 +18,7 @@ BEGIN
        job_action => 'statspack.snap;',
        number_of_arguments => 0,
        start_date => systimestamp,
-       repeat_interval => 'FREQ=HOURLY;BYTIME=0000;BYDAY=MON,TUE,WED,THU,FRI,SAT,SUN',
+       repeat_interval => 'FREQ=HOURLY;BYTIME=000000;BYDAY=MON,TUE,WED,THU,FRI,SAT,SUN',
        end_date => NULL,
        enabled => TRUE,
        auto_drop => FALSE,
